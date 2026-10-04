@@ -3,516 +3,1541 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Udai Kothi | The Heritage Experience</title>
+    <title>Udai Kothi | The Heritage Experience | Reimagined by Avartana Labs</title>
+    <meta name="description" content="A tranquil heritage sanctuary on Hanuman Ghat, Lake Pichola, Udaipur. Handcrafted architecture, rooftop pool, and Mewari hospitality reimagined by Avartana Labs.">
+    <meta name="keywords" content="Udai Kothi, Udaipur hotel, Lake Pichola, luxury heritage hotel, Udaipur rooftop pool, boutique hotel Rajasthan, Avartana Labs">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Udai Kothi | The Heritage Experience">
+    <meta property="og:description" content="A quiet masterpiece in the City of Lakes. Reimagined with modern digital craftsmanship by Avartana Labs.">
+    <meta property="og:image" content="assets/images/slider-img1.webp">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Udai Kothi | Heritage Boutique Hotel">
+    <meta name="twitter:description" content="Experience serenity on Hanuman Ghat, Udaipur. Modern luxury concept by Avartana Labs.">
+    <meta name="twitter:image" content="assets/images/slider-img1.webp">
+    
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <meta name="theme-color" content="#0a1929">
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Palette */
             --blue-midnight: #0a1929;
             --blue-royal: #142840;
+            --blue-subtle: #1c3554;
             --gold-matte: #c5a059;
+            --gold-light: #e5c788;
             --white: #ffffff;
             --off-white: #f4f7f6;
-            --grey-text: #666;
+            --grey-text: #666666;
+            --card-border: rgba(255, 255, 255, 0.12);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             background-color: var(--off-white);
             color: var(--blue-midnight);
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- UI ELEMENTS --- */
-        .cursor {
-            width: 20px; height: 20px;
-            border: 1px solid var(--blue-royal);
+        /* --- BUTTERY 60FPS CUSTOM CURSOR --- */
+        .cursor-dot, .cursor-circle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99999;
             border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background-color 0.3s;
-            mix-blend-mode: difference;
-            display: block;
+            transition: opacity 0.3s ease, transform 0.15s ease-out;
+            will-change: transform;
         }
-        .cursor.hovered {
-            width: 60px; height: 60px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-color: transparent;
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--gold-matte);
+        }
+        .cursor-circle {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--gold-matte);
             mix-blend-mode: difference;
+        }
+        .cursor-circle.hovered {
+            width: 64px;
+            height: 64px;
+            background-color: rgba(197, 160, 89, 0.25);
+            border-color: var(--gold-light);
+            mix-blend-mode: normal;
         }
 
+        /* --- PRELOADER (Instant & Graceful) --- */
         .preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--blue-midnight); z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--blue-midnight);
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             color: var(--gold-matte);
-            animation: slideUp 1s cubic-bezier(0.77, 0, 0.175, 1) 2.5s forwards;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+        }
+        .preloader.dismissed {
+            transform: translateY(-100%);
+            pointer-events: none;
+        }
+        .preloader-crest {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+            animation: pulseCrest 1.8s infinite ease-in-out;
         }
         .preloader span {
-            font-family: 'Cormorant Garamond', serif; font-size: 3rem;
-            opacity: 0; animation: fadeText 1s ease 0.5s forwards;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
-        @keyframes fadeText { to { opacity: 1; } }
-        @keyframes slideUp { to { transform: translateY(-100%); } }
+        .preloader-sub {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 0.5rem;
+        }
+        @keyframes pulseCrest {
+            0%, 100% { opacity: 0.4; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
 
         .reveal-up {
-            opacity: 0; transform: translateY(60px);
-            transition: all 1s ease-out;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .reveal-up.active { opacity: 1; transform: translateY(0); }
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* --- TYPOGRAPHY --- */
-        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.1; }
-        .subtitle {
-            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px;
-            color: var(--gold-matte); margin-bottom: 1rem; display: block; font-weight: 600;
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            line-height: 1.15;
         }
-        p { color: var(--grey-text); line-height: 1.8; font-weight: 300; }
+        .subtitle {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--gold-matte);
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 600;
+        }
+        p {
+            color: var(--grey-text);
+            line-height: 1.8;
+            font-weight: 300;
+        }
 
-        /* --- HEADER & NAV --- */
+        /* --- HEADER & NAVIGATION --- */
         header {
-            position: fixed; top: 0; width: 100%; padding: 1.5rem 4rem;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.75rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            color: white;
             transition: all 0.4s ease;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
         header.scrolled {
-            background-color: var(--blue-midnight);
-            padding: 1rem 4rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-bottom: 1px solid transparent;
+            background-color: rgba(10, 25, 41, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1.1rem 4rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
         }
 
-        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; position: relative; z-index: 1001; }
-        .nav-right { display: flex; align-items: center; gap: 3rem; }
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            z-index: 1001;
+        }
+        .logo-crest {
+            width: 28px;
+            height: 28px;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
 
-        .menu-toggle { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; position: relative; cursor: pointer; z-index: 1001; }
-        .menu-toggle::after { content:''; position:absolute; bottom:-5px; left:0; width:0%; height:1px; background:var(--gold-matte); transition:0.3s; }
-        .menu-toggle:hover::after { width:100%; }
+        .menu-toggle {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 4px 0;
+        }
+        .menu-toggle::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--gold-matte);
+            transition: 0.3s;
+        }
+        .menu-toggle:hover::after { width: 100%; }
 
         .nav-book-btn {
             border: 1px solid var(--gold-matte);
-            padding: 0.8rem 2rem;
-            font-size: 0.75rem;
+            padding: 0.75rem 1.85rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             text-decoration: none;
             color: var(--gold-matte);
-            transition: 0.3s;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 2px;
+            background: transparent;
+            cursor: pointer;
         }
-        .nav-book-btn:hover { background: var(--gold-matte); color: var(--blue-midnight); }
+        .nav-book-btn:hover {
+            background: var(--gold-matte);
+            color: var(--blue-midnight);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.35);
+        }
 
-        /* --- MENU OVERLAY (This was missing) --- */
+        /* --- FULLSCREEN MENU OVERLAY --- */
         .menu-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--blue-midnight); color: white; z-index: 1000;
-            transform: translateX(100%); transition: 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--blue-midnight);
+            color: white;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.65s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(circle at center, rgba(20, 40, 64, 0.6) 0%, rgba(10, 25, 41, 0.98) 100%);
         }
-        .menu-overlay.active { transform: translateX(0); }
+        .menu-overlay.active {
+            transform: translateX(0);
+        }
+        .menu-nav-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+        }
         .menu-link {
-            font-family: 'Cormorant Garamond', serif; font-size: 4rem;
-            color: rgba(255,255,255,0.3); text-decoration: none; margin: 10px 0;
-            transition: 0.3s; cursor: none;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
-        .menu-link:hover { color: white; transform: translateX(20px); font-style: italic; }
+        .menu-link:hover {
+            color: var(--gold-matte);
+            transform: translateX(12px);
+            font-style: italic;
+        }
+        .menu-actions {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
         /* --- HERO --- */
         .hero {
-            height: 100vh; position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center; text-align: center;
+            height: 100vh;
+            min-height: 650px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
         .hero-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 120%;
-            background: url('https://udaikothi.com/wp-content/uploads/2024/03/slider-img1.png') center/cover;
-            filter: brightness(0.9);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background: url('assets/images/slider-img1.webp') center/cover no-repeat;
+            filter: brightness(0.85);
             will-change: transform;
         }
         .hero-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to bottom, rgba(10,25,41,0.3), rgba(10,25,41,0.7));
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(10,25,41,0.35) 0%, rgba(10,25,41,0.65) 75%, rgba(10,25,41,0.92) 100%);
         }
-        .hero-content { position: relative; z-index: 2; color: var(--white); padding-top: 5rem; }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--white);
+            padding: 0 1.5rem;
+            max-width: 900px;
+        }
         .hero h1 {
-            font-size: 7vw; margin-bottom: 1rem; color: var(--white);
-            text-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            opacity: 0; animation: textEnter 1.5s ease 3s forwards;
+            font-size: 6.2vw;
+            margin-bottom: 1.25rem;
+            color: var(--white);
+            text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            letter-spacing: -0.5px;
         }
-        @keyframes textEnter { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .hero p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.1rem;
+            max-width: 580px;
+            margin: 0 auto 2.5rem auto;
+            font-weight: 300;
+        }
+        .hero-cta-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .hero-btn-primary {
+            background: var(--gold-matte);
+            color: var(--blue-midnight);
+            padding: 1rem 2.5rem;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+            box-shadow: 0 8px 24px rgba(197, 160, 89, 0.3);
+            border: 1px solid var(--gold-matte);
+            cursor: pointer;
+        }
+        .hero-btn-primary:hover {
+            background: #d4b16d;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(197, 160, 89, 0.45);
+        }
+        .hero-btn-secondary {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: var(--white);
+            padding: 1rem 2.2rem;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+        }
+        .hero-btn-secondary:hover {
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+        }
 
-        /* --- SECTIONS --- */
-        .intro-section { padding: 8rem 20%; text-align: center; }
-        .intro-section h2 { font-size: 3rem; margin-bottom: 2rem; color: var(--blue-royal); }
+        /* --- INTRO SECTION --- */
+        .intro-section {
+            padding: 8rem 20%;
+            text-align: center;
+            background: var(--white);
+        }
+        .intro-section h2 {
+            font-size: 3.2rem;
+            margin-bottom: 2rem;
+            color: var(--blue-royal);
+        }
+        .intro-section p {
+            font-size: 1.1rem;
+            max-width: 720px;
+            margin: 0 auto;
+        }
 
-        .marquee-wrap { background: var(--blue-midnight); padding: 2rem 0; overflow: hidden; white-space: nowrap; }
+        /* --- MARQUEE --- */
+        .marquee-wrap {
+            background: var(--blue-midnight);
+            padding: 1.75rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        }
         .marquee-text {
-            display: inline-block; animation: scroll 30s linear infinite;
-            font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: rgba(255,255,255,0.2);
+            display: inline-block;
+            animation: scrollMarquee 32s linear infinite;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.2rem;
+            color: rgba(255,255,255,0.3);
             font-style: italic;
         }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes scrollMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
 
-        .feature-section { padding: 4rem 10%; }
-        .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; margin-bottom: 8rem; }
-        .feature-row.reversed { grid-template-columns: 1fr 1fr; direction: rtl; }
-        .feature-row.reversed .text-block { direction: ltr; }
+        /* --- FEATURES SECTION --- */
+        .feature-section {
+            padding: 7rem 10%;
+            background: var(--off-white);
+        }
+        .feature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            margin-bottom: 8rem;
+        }
+        .feature-row:last-child {
+            margin-bottom: 0;
+        }
+        .feature-row.reversed {
+            direction: rtl;
+        }
+        .feature-row.reversed .text-block {
+            direction: ltr;
+        }
 
-        .img-container { height: 550px; overflow: hidden; position: relative; }
+        .img-container {
+            height: 520px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(10, 25, 41, 0.08);
+        }
         .img-container img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 1.2s ease; transform: scale(1.2);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(1.15);
         }
-        .img-container.active img { transform: scale(1); }
+        .img-container.active img {
+            transform: scale(1);
+        }
 
-        .text-block h3 { font-size: 3rem; margin-bottom: 1.5rem; color: var(--blue-midnight); }
+        .text-block h3 {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--blue-midnight);
+        }
         .btn-link {
-            display: inline-block; margin-top: 2rem; color: var(--blue-midnight);
-            text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;
-            border-bottom: 1px solid var(--blue-midnight); padding-bottom: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2rem;
+            color: var(--blue-midnight);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-bottom: 1px solid var(--gold-matte);
+            padding-bottom: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-link:hover {
+            color: var(--gold-matte);
+            transform: translateX(6px);
         }
 
+        /* --- EXPERIENCE SECTION --- */
         .experience-section {
-            background-color: var(--blue-royal); color: white; padding: 6rem 10%;
-            position: relative; overflow: hidden;
+            background-color: var(--blue-royal);
+            color: white;
+            padding: 7rem 10%;
+            position: relative;
+            overflow: hidden;
         }
-        .experience-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; position: relative; z-index: 2; }
-        .exp-card { padding: 2rem; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .exp-card:hover { border-color: var(--gold-matte); background: rgba(255,255,255,0.02); }
-        .exp-card h4 { font-size: 1.8rem; margin-bottom: 1rem; color: white; }
-        .exp-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
-        .exp-icon { font-size: 2rem; color: var(--gold-matte); margin-bottom: 1.5rem; display: block; }
+        .experience-header {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 5rem auto;
+        }
+        .experience-header h2 {
+            font-size: 3.4rem;
+            color: white;
+        }
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        .exp-card {
+            padding: 2.75rem 2.25rem;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            background: rgba(255,255,255,0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .exp-card:hover {
+            border-color: var(--gold-matte);
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+        }
+        .exp-card h4 {
+            font-size: 2rem;
+            margin-bottom: 1.15rem;
+            color: white;
+        }
+        .exp-card p {
+            color: rgba(255,255,255,0.65);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+        .exp-icon {
+            font-size: 2.2rem;
+            color: var(--gold-matte);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
 
-        .slider-section { padding: 8rem 0; overflow: hidden; background: white; }
+        /* --- SLIDER SECTION (ROOMS) --- */
+        .slider-section {
+            padding: 8rem 0;
+            overflow: hidden;
+            background: white;
+        }
+        .slider-header {
+            padding: 0 10% 3.5rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .slider-header h2 {
+            font-size: 3.2rem;
+            color: var(--blue-midnight);
+        }
         .slider-track {
-            display: flex; gap: 3rem; padding-left: 10%; overflow-x: auto;
-            scrollbar-width: none; padding-bottom: 2rem;
+            display: flex;
+            gap: 2.5rem;
+            padding-left: 10%;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 2rem;
+            scroll-snap-type: x mandatory;
         }
         .slider-track::-webkit-scrollbar { display: none; }
-        .slide-card { min-width: 400px; position: relative; }
-        .slide-card img { width: 100%; height: 500px; object-fit: cover; filter: grayscale(20%); transition: 0.5s; }
-        .slide-card:hover img { filter: grayscale(0%); transform: scale(0.98); }
-        .slide-info { margin-top: 1.5rem; }
-        .slide-info h4 { font-size: 1.5rem; color: var(--blue-midnight); }
+        .slide-card {
+            min-width: 420px;
+            position: relative;
+            scroll-snap-align: start;
+            border-radius: 4px;
+            overflow: hidden;
+            background: var(--off-white);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+            transition: transform 0.4s ease;
+        }
+        .slide-card:hover {
+            transform: translateY(-6px);
+        }
+        .slide-card img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            filter: grayscale(12%);
+            transition: filter 0.5s ease, transform 0.6s ease;
+        }
+        .slide-card:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.03);
+        }
+        .slide-info {
+            padding: 1.5rem 1.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .slide-info h4 {
+            font-size: 1.65rem;
+            color: var(--blue-midnight);
+        }
+        .slide-info p {
+            color: var(--gold-matte);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+        }
+        .slide-book-btn {
+            background: transparent;
+            border: 1px solid var(--blue-midnight);
+            color: var(--blue-midnight);
+            padding: 0.5rem 1rem;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        .slide-book-btn:hover {
+            background: var(--blue-midnight);
+            color: white;
+        }
 
-        .reviews { padding: 8rem 20%; text-align: center; background-color: var(--off-white); }
-        .review-text { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; line-height: 1.3; color: var(--blue-midnight); font-style: italic; }
-        .review-author { margin-top: 2rem; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-matte); }
+        /* --- REVIEWS --- */
+        .reviews {
+            padding: 8rem 20%;
+            text-align: center;
+            background-color: var(--off-white);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        .review-quote-mark {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 6rem;
+            line-height: 1;
+            color: var(--gold-matte);
+            margin-bottom: -1.5rem;
+        }
+        .review-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.6rem;
+            line-height: 1.35;
+            color: var(--blue-midnight);
+            font-style: italic;
+        }
+        .review-author {
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-matte);
+            font-weight: 600;
+        }
 
         /* --- FOOTER CTA --- */
         .big-footer {
-            height: 90vh; background: var(--blue-midnight); color: white;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            min-height: 85vh;
+            background: var(--blue-midnight);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
         }
         .cta-circle {
-            width: 200px; height: 200px;
-            border: 1px solid rgba(255,255,255,0.3);
+            width: 210px;
+            height: 210px;
+            border: 1px solid rgba(255,255,255,0.35);
             border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: white;
             text-decoration: none;
-            transition: 0.4s;
+            transition: 0.4s ease;
             position: relative;
             overflow: hidden;
             z-index: 1;
+            cursor: pointer;
+            background: transparent;
         }
-        .cta-circle span { position: relative; z-index: 2; transition: 0.4s; }
+        .cta-circle span {
+            position: relative;
+            z-index: 2;
+            transition: 0.4s;
+            line-height: 1.15;
+            text-align: center;
+        }
         .cta-circle::before {
-            content: ''; position: absolute; inset: 0;
+            content: '';
+            position: absolute;
+            inset: 0;
             background: var(--gold-matte);
-            transform: scale(0); transition: 0.4s ease-in-out; border-radius: 50%; z-index: 0;
+            transform: scale(0);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 50%;
+            z-index: 0;
         }
-        .cta-circle:hover { border-color: var(--gold-matte); }
-        .cta-circle:hover span { color: var(--blue-midnight); }
-        .cta-circle:hover::before { transform: scale(1); }
+        .cta-circle:hover {
+            border-color: var(--gold-matte);
+            box-shadow: 0 0 35px rgba(197, 160, 89, 0.4);
+        }
+        .cta-circle:hover span {
+            color: var(--blue-midnight);
+        }
+        .cta-circle:hover::before {
+            transform: scale(1);
+        }
 
-        /* --- MOBILE RESPONSIVENESS --- */
-        @media (max-width: 768px) {
-            /* General */
-            .cursor { display: none; } /* Disable custom cursor on touch */
-            * { cursor: auto; }
+        .footer-social-links {
+            margin-top: 5rem;
+            display: flex;
+            gap: 2.5rem;
+            font-size: 0.82rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .footer-social-links a {
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-social-links a:hover {
+            color: var(--gold-matte);
+        }
+        .footer-bottom-bar {
+            margin-top: 3.5rem;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.35);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+        .footer-bottom-bar a {
+            color: var(--gold-matte);
+            text-decoration: none;
+        }
 
-            /* Header */
-            header { padding: 1.2rem; }
-            .nav-book-btn { display: none; } /* Hide book button in header, rely on menu */
-            .logo { font-size: 1.5rem; }
-            .nav-right { gap: 1rem; }
+        /* --- BOOKING CONCIERGE DRAWER / MODAL --- */
+        .booking-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 25, 41, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .booking-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .booking-drawer {
+            width: 100%;
+            max-width: 520px;
+            height: 100%;
+            background: var(--blue-royal);
+            color: white;
+            box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5);
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            padding: 3.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .booking-modal-overlay.active .booking-drawer {
+            transform: translateX(0);
+        }
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1.5rem;
+        }
+        .drawer-header h3 {
+            font-size: 2.4rem;
+            color: white;
+        }
+        .drawer-close {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .drawer-close:hover {
+            border-color: var(--gold-matte);
+            color: var(--gold-matte);
+        }
+        .booking-form-group {
+            margin-bottom: 1.75rem;
+        }
+        .booking-form-group label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-matte);
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+        .booking-input, .booking-select {
+            width: 100%;
+            background: rgba(10, 25, 41, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.9rem 1.15rem;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            border-radius: 3px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .booking-input:focus, .booking-select:focus {
+            border-color: var(--gold-matte);
+        }
+        .booking-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+        .btn-whatsapp-book {
+            width: 100%;
+            background: #25D366;
+            color: #0b2b1a;
+            border: none;
+            padding: 1.1rem;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+        .btn-whatsapp-book:hover {
+            background: #20ba5a;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+            transform: translateY(-2px);
+        }
+        .direct-contacts {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .direct-contacts a {
+            color: var(--gold-matte);
+            text-decoration: none;
+            margin: 0 8px;
+        }
 
-            /* Hero */
-            .hero h1 { font-size: 14vw; line-height: 1.1; }
-            .hero-content { padding-top: 0; }
+        /* --- FLOATING AVARTANA LABS CONCEPT BADGE & PITCH MODAL --- */
+        .avartana-pitch-badge {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(10, 25, 41, 0.92);
+            border: 1px solid var(--gold-matte);
+            backdrop-filter: blur(12px);
+            padding: 10px 18px;
+            border-radius: 50px;
+            color: white;
+            font-size: 0.74rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .avartana-pitch-badge:hover {
+            background: var(--blue-royal);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(197, 160, 89, 0.35);
+        }
+        .pulse-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--gold-matte);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold-matte);
+            animation: pulseDot 2s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
 
-            /* Intro */
-            .intro-section { padding: 4rem 1.5rem; }
-            .intro-section h2 { font-size: 2rem; }
-            .marquee-text { font-size: 2.5rem; }
+        .pitch-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 25, 41, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        .pitch-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .pitch-modal {
+            background: var(--blue-midnight);
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 640px;
+            padding: 3rem 2.5rem;
+            color: white;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        .pitch-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .pitch-modal-close:hover { color: var(--gold-matte); }
+        .pitch-modal h3 {
+            font-size: 2.4rem;
+            color: var(--gold-matte);
+            margin-bottom: 0.5rem;
+        }
+        .pitch-modal p.pitch-intro {
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .pitch-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .matrix-box {
+            padding: 1.25rem;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+        .matrix-box.legacy {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .matrix-box.avartana {
+            background: rgba(197, 160, 89, 0.08);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            color: white;
+        }
+        .matrix-box strong {
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        .matrix-box.legacy strong { color: #f87171; }
+        .matrix-box.avartana strong { color: var(--gold-matte); }
+        .matrix-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        .matrix-box li {
+            margin-bottom: 0.5rem;
+        }
+        .pitch-cta-btn {
+            display: block;
+            width: 100%;
+            background: var(--gold-matte);
+            color: var(--blue-midnight);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .pitch-cta-btn:hover {
+            background: #d4b16d;
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.35);
+        }
 
-            /* Features (Zig Zag) */
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 900px) {
+            header { padding: 1.25rem 1.5rem; }
+            header.scrolled { padding: 1rem 1.5rem; }
+            .nav-book-btn { display: none; }
+            .hero h1 { font-size: 11vw; }
+            .intro-section { padding: 5rem 1.5rem; }
+            .intro-section h2 { font-size: 2.4rem; }
+            .marquee-text { font-size: 2.2rem; }
             .feature-section { padding: 4rem 1.5rem; }
             .feature-row, .feature-row.reversed {
                 grid-template-columns: 1fr;
-                gap: 3rem;
-                margin-bottom: 6rem;
-                direction: ltr; /* Reset direction so text is always below/above consistently */
+                gap: 2.5rem;
+                margin-bottom: 5rem;
+                direction: ltr;
             }
-            .img-container { height: 350px; }
-            .text-block h3 { font-size: 2.2rem; margin-bottom: 1rem; }
+            .img-container { height: 360px; }
+            .experience-section { padding: 5rem 1.5rem; }
+            .experience-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .slider-track { padding-left: 1.5rem; }
+            .slide-card { min-width: 82vw; }
+            .slide-card img { height: 380px; }
+            .reviews { padding: 5rem 1.5rem; }
+            .review-text { font-size: 1.8rem; }
+            .big-footer { padding: 5rem 1.5rem; }
+            .big-footer h2 { font-size: 2.8rem; }
+            .pitch-matrix { grid-template-columns: 1fr; }
+            .avartana-pitch-badge { bottom: 16px; right: 16px; font-size: 0.68rem; padding: 8px 14px; }
+            .cursor-dot, .cursor-circle { display: none !important; }
+        }
 
-            /* Experience Grid */
-            .experience-section { padding: 4rem 1.5rem; }
-            .experience-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .experience-section h2 { font-size: 2.5rem; margin-bottom: 3rem; }
-
-            /* Slider */
-            .slider-section { padding: 4rem 0; }
-            .slide-card { min-width: 85vw; /* Almost full width on mobile */ }
-            .slide-card img { height: 400px; }
-
-            /* Footer */
-            .reviews { padding: 4rem 1.5rem; }
-            .review-text { font-size: 1.6rem; }
-            .big-footer { height: auto; padding: 6rem 1rem; }
-            .big-footer h2 { font-size: 3rem; text-align: center; }
-
-            /* Menu */
-            .menu-link { font-size: 2.5rem; }
+        @media (hover: none) {
+            .cursor-dot, .cursor-circle { display: none !important; }
         }
     </style>
 </head>
 <body>
 
-<div class="cursor"></div>
-<div class="preloader">
+<!-- Custom Cursor Elements -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-circle" id="cursorCircle"></div>
+
+<!-- Instant Preloader -->
+<div class="preloader" id="preloader">
+    <svg class="preloader-crest" viewBox="0 0 64 64" fill="none">
+        <path d="M32 12C24 12 18 19 18 28V46C18 48 20 50 22 50H42C44 50 46 48 46 46V28C46 19 40 12 32 12Z" stroke="#c5a059" stroke-width="2.5"/>
+        <circle cx="32" cy="30" r="3" fill="#c5a059"/>
+        <path d="M32 36V46" stroke="#c5a059" stroke-width="2"/>
+    </svg>
     <span>Udai Kothi</span>
+    <div class="preloader-sub">Lake Pichola · Udaipur</div>
 </div>
 
+<!-- Header -->
 <header id="navbar">
-    <div class="logo hover-target">Udai Kothi</div>
+    <a href="#" class="logo-wrap hover-target">
+        <svg class="logo-crest" viewBox="0 0 64 64" fill="none">
+            <path d="M32 12C24 12 18 19 18 28V46C18 48 20 50 22 50H42C44 50 46 48 46 46V28C46 19 40 12 32 12Z" stroke="#c5a059" stroke-width="2.5"/>
+            <circle cx="32" cy="30" r="3" fill="#c5a059"/>
+            <path d="M32 36V46" stroke="#c5a059" stroke-width="2"/>
+        </svg>
+        <div class="logo">Udai Kothi</div>
+    </a>
     <div class="nav-right">
-        <a href="#" class="nav-book-btn hover-target">Book Now</a>
+        <button class="nav-book-btn hover-target" onclick="openBookingDrawer()">Reserve Suite</button>
         <div class="menu-toggle hover-target" id="menuToggleBtn">Menu</div>
     </div>
 </header>
 
+<!-- Fullscreen Menu Overlay -->
 <div class="menu-overlay" id="menuOverlay">
-    <a href="#" class="menu-link hover-target" onclick="toggleMenu()">The Estate</a>
-    <a href="#" class="menu-link hover-target" onclick="toggleMenu()">Suites</a>
-    <a href="#" class="menu-link hover-target" onclick="toggleMenu()">Dining</a>
-    <a href="#" class="menu-link hover-target" onclick="toggleMenu()">Experience</a>
-    <a href="#" class="menu-link hover-target" style="font-size: 1.5rem; margin-top: 2rem; border: 1px solid white; padding: 10px 30px; border-radius: 50px;">Book Now</a>
-
-    <div class="menu-toggle hover-target" style="margin-top: 3rem; cursor: pointer;" onclick="toggleMenu()">Close</div>
+    <div class="menu-nav-links">
+        <a href="#estate" class="menu-link hover-target" onclick="toggleMenu()">The Estate</a>
+        <a href="#suites" class="menu-link hover-target" onclick="toggleMenu()">Suites</a>
+        <a href="#dining" class="menu-link hover-target" onclick="toggleMenu()">Dining</a>
+        <a href="#experiences" class="menu-link hover-target" onclick="toggleMenu()">Experiences</a>
+    </div>
+    <div class="menu-actions">
+        <button class="nav-book-btn hover-target" style="font-size: 0.85rem; padding: 0.9rem 2.5rem;" onclick="toggleMenu(); openBookingDrawer();">Reserve A Stay</button>
+        <div class="menu-toggle hover-target" style="font-size: 0.75rem; color: rgba(255,255,255,0.6);" onclick="toggleMenu()">Close Menu</div>
+    </div>
 </div>
 
+<!-- Hero Section -->
 <section class="hero">
-    <div class="hero-bg" id="parallax-bg"></div>
+    <div class="hero-bg" id="parallaxBg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-        <span class="subtitle" style="color: var(--gold-matte);">Hanuman Ghat, Udaipur</span>
-        <h1>Serenity on the<br> Ghat</h1>
+        <span class="subtitle">Hanuman Ghat · Lake Pichola · Udaipur</span>
+        <h1>Serenity on the<br>Ghat</h1>
+        <p>A tranquil luxury retreat overlooking the historic waters of Udaipur. Where classic Mewari heritage meets modern architectural calm.</p>
+        <div class="hero-cta-group">
+            <button class="hero-btn-primary hover-target" onclick="openBookingDrawer()">Book Your Stay</button>
+            <a href="#estate" class="hero-btn-secondary hover-target">Discover Estate</a>
+        </div>
     </div>
 </section>
 
-<section class="intro-section reveal-up">
+<!-- The Estate (Intro) -->
+<section class="intro-section reveal-up" id="estate">
     <span class="subtitle">The Estate</span>
     <h2>"A Quiet Masterpiece in the City of Lakes"</h2>
-    <p>Escape the bustle of the Old City and step into a sanctuary of white marble and lush gardens. At Udai Kothi, history isn’t just on the walls—it’s in the experience.</p>
+    <p>Escape the bustle of the Old City and step into a sanctuary of pristine white arches, courtyards, and lush rooftop gardens. At Udai Kothi, history is not merely preserved—it is elevated into an unforgettable sensory journey.</p>
 </section>
 
+<!-- Marquee Divider -->
 <div class="marquee-wrap">
     <div class="marquee-text">
-        &nbsp; Heritage Luxury &nbsp;❖&nbsp; Rooftop Pools &nbsp;❖&nbsp; Royal Weddings &nbsp;❖&nbsp; Lake Pichola &nbsp;❖&nbsp; Heritage Luxury &nbsp;❖&nbsp; Rooftop Pools &nbsp;❖&nbsp;
+        &nbsp; Heritage Luxury &nbsp;❖&nbsp; Rooftop Glass Pool &nbsp;❖&nbsp; Royal Mewari Weddings &nbsp;❖&nbsp; Lake Pichola Sunsets &nbsp;❖&nbsp; Heritage Luxury &nbsp;❖&nbsp; Rooftop Glass Pool &nbsp;❖&nbsp;
     </div>
 </div>
 
-<section class="feature-section">
+<!-- Features Section (Accommodations & Dining) -->
+<section class="feature-section" id="suites">
     <div class="feature-row">
         <div class="text-block reveal-up">
             <span class="subtitle">Accommodations</span>
             <h3>Mewar Modernism</h3>
-            <p>Each of our 64 rooms and suites is a unique canvas of traditional decor and contemporary luxury. Featuring hand-painted murals, antique furnishings, and modern amenities.</p>
-            <a href="#" class="btn-link hover-target">View Suites</a>
+            <p>Each of our 64 rooms and suites is a unique canvas of traditional Rajasthani craftsmanship paired with contemporary luxury. Enjoy hand-painted jharokhas, antique Mewari furnishings, and serene lake-view balconies.</p>
+            <a href="#rooms-slider" class="btn-link hover-target">Explore Private Rooms <span>→</span></a>
         </div>
         <div class="img-container reveal-up">
-            <img src="https://udaikothi.com/wp-content/uploads/2019/08/LAKE-2-1.jpg" alt="Room">
+            <img src="assets/images/LAKE-2-1.webp" alt="Udai Kothi Suite Interior" loading="lazy">
         </div>
     </div>
 
-    <div class="feature-row reversed">
+    <div class="feature-row reversed" id="dining">
         <div class="text-block reveal-up">
-            <span class="subtitle">Baro Masi</span>
-            <h3>Dining Above <br>The Clouds</h3>
-            <p>Perched high above the city, our famous rooftop offers a 360-degree panorama of Lake Pichola. Featuring Udaipur's only glass-floored pool.</p>
-            <a href="#" class="btn-link hover-target">View Menus</a>
+            <span class="subtitle">Baro Masi Rooftop</span>
+            <h3>Dining Above<br>The Clouds</h3>
+            <p>Perched high above the lake, our celebrated rooftop restaurant offers a panoramic 360-degree view of Lake Pichola and the City Palace. Complete with Udaipur's iconic glass-floored rooftop swimming pool and handcrafted signature cocktails.</p>
+            <button class="btn-link hover-target" onclick="openBookingDrawer('Dining Reservation at Baro Masi')">Reserve Rooftop Table <span>→</span></button>
         </div>
         <div class="img-container reveal-up">
-            <img src="https://udaikothi.com/wp-content/uploads/2019/08/3-2.jpg" alt="Rooftop">
+            <img src="assets/images/3-2.webp" alt="Baro Masi Rooftop Dining & Pool" loading="lazy">
         </div>
     </div>
 </section>
 
-<section class="experience-section">
-    <span class="subtitle" style="margin-bottom: 3rem;">The Concierge</span>
-    <h2 style="font-size: 3rem; margin-bottom: 4rem;">Curated Experiences</h2>
+<!-- Experiences Section -->
+<section class="experience-section reveal-up" id="experiences">
+    <div class="experience-header">
+        <span class="subtitle" style="color: var(--gold-matte);">The Concierge</span>
+        <h2>Curated Experiences</h2>
+        <p style="color: rgba(255,255,255,0.7); margin-top: 1rem;">From private royal cruises to moonlit courtyard dinners, immerse yourself in authentic Mewar.</p>
+    </div>
 
     <div class="experience-grid">
         <div class="exp-card hover-target">
             <span class="exp-icon">⚓</span>
             <h4>Udai Marine</h4>
-            <p>Set sail on Lake Pichola with our private boats, Barge Bahadur and Roopmati. Sunset cruises exclusive to our guests.</p>
+            <p>Sail across Lake Pichola aboard our private heritage boats, Barge Bahadur and Roopmati. Exclusive sunset champagne cruises for our resident guests.</p>
         </div>
         <div class="exp-card hover-target">
             <span class="exp-icon">⚜️</span>
             <h4>Royal Weddings</h4>
-            <p>A heritage backdrop for your special day. From intimate gatherings to grand celebrations of up to 200 guests.</p>
+            <p>An enchanting royal backdrop for celebrations. From intimate courtyard vows to lavish multi-day heritage weddings with up to 200 distinguished guests.</p>
         </div>
         <div class="exp-card hover-target">
             <span class="exp-icon">💆‍♀️</span>
             <h4>Ayurvedic Spa</h4>
-            <p>Rejuvenate your senses with traditional therapies and modern wellness treatments in our serene spa sanctuary.</p>
+            <p>Rejuvenate your senses with holistic botanical therapies, ancient Abhyanga massages, and sound baths in our serene subterranean wellness sanctuary.</p>
         </div>
     </div>
 </section>
 
-<section class="slider-section">
-    <div style="padding: 0 10% 3rem 10%;">
-        <span class="subtitle">The Collection</span>
-        <h2 style="color: var(--blue-midnight);">Private Rooms</h2>
+<!-- Rooms Slider -->
+<section class="slider-section reveal-up" id="rooms-slider">
+    <div class="slider-header">
+        <div>
+            <span class="subtitle">The Collection</span>
+            <h2>Private Rooms & Suites</h2>
+        </div>
+        <span style="font-size: 0.8rem; color: var(--grey-text); letter-spacing: 1px;">Drag or Scroll horizontally →</span>
     </div>
+
     <div class="slider-track hover-target">
         <div class="slide-card">
-            <img src="https://udaikothi.com/wp-content/uploads/2019/07/delux-room1.png" alt="Suite">
+            <img src="assets/images/delux-room1.webp" alt="Maharani Suite" loading="lazy">
             <div class="slide-info">
-                <h4>Maharani Suite</h4>
-                <p>Lake View</p>
+                <div>
+                    <h4>Maharani Suite</h4>
+                    <p>Lake & Palace View</p>
+                </div>
+                <button class="slide-book-btn hover-target" onclick="openBookingDrawer('Maharani Suite')">Select</button>
             </div>
         </div>
         <div class="slide-card">
-            <img src="https://udaikothi.com/wp-content/uploads/2019/08/27.jpg" alt="Suite">
+            <img src="assets/images/27.webp" alt="Heritage Deluxe Room" loading="lazy">
             <div class="slide-info">
-                <h4>Heritage Deluxe</h4>
-                <p>Garden View</p>
+                <div>
+                    <h4>Heritage Deluxe</h4>
+                    <p>Courtyard Garden View</p>
+                </div>
+                <button class="slide-book-btn hover-target" onclick="openBookingDrawer('Heritage Deluxe')">Select</button>
             </div>
         </div>
         <div class="slide-card">
-            <img src="https://udaikothi.com/wp-content/uploads/2019/08/705-Panorama.jpg" alt="Suite">
+            <img src="assets/images/705-Panorama.webp" alt="Udai Suite" loading="lazy">
             <div class="slide-info">
-                <h4>Udai Suite</h4>
-                <p>Private Terrace</p>
+                <div>
+                    <h4>Udai Suite</h4>
+                    <p>Private Jharokha Terrace</p>
+                </div>
+                <button class="slide-book-btn hover-target" onclick="openBookingDrawer('Udai Suite')">Select</button>
             </div>
         </div>
         <div class="slide-card">
-            <img src="https://udaikothi.com/wp-content/uploads/2019/08/LAKE-2.jpg" alt="Suite">
+            <img src="assets/images/LAKE-2.webp" alt="Royal Room" loading="lazy">
             <div class="slide-info">
-                <h4>Royal Room</h4>
-                <p>Pool Access</p>
+                <div>
+                    <h4>Royal Room</h4>
+                    <p>Direct Pool Access</p>
+                </div>
+                <button class="slide-book-btn hover-target" onclick="openBookingDrawer('Royal Room')">Select</button>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Editorial Reviews -->
 <section class="reviews reveal-up">
-    <p class="review-text">"Perhaps the most romantic view in India. The rooftop pool at sunset is pure magic."</p>
+    <div class="review-quote-mark">“</div>
+    <p class="review-text">"Perhaps the most romantic view in India. The rooftop glass-bottom pool at sunset is pure cinematic magic."</p>
     <p class="review-author">— Condé Nast Traveller</p>
 </section>
 
-<footer class="big-footer">
-    <span class="subtitle" style="color: rgba(255,255,255,0.5);">Ready to Visit?</span>
-    <h2 style="font-size: 4rem; margin-bottom: 3rem;">Your Sanctuary <br>Awaits</h2>
+<!-- Big Footer CTA -->
+<footer class="big-footer" id="contact">
+    <span class="subtitle" style="color: rgba(197, 160, 89, 0.8);">Ready to Visit Udaipur?</span>
+    <h2 style="font-size: 4.2rem; margin-bottom: 3.5rem;">Your Sanctuary<br>Awaits</h2>
 
-    <a href="#" class="cta-circle hover-target">
-        <span>Book <br>Now</span>
-    </a>
+    <button class="cta-circle hover-target" onclick="openBookingDrawer()">
+        <span>Reserve<br>Stay</span>
+    </button>
 
-    <div style="margin-top: 6rem; display: flex; gap: 2rem; font-size: 0.8rem; color: rgba(255,255,255,0.4);">
-        <span>Instagram</span>
-        <span>Facebook</span>
-        <span>Email Us</span>
+    <div class="footer-social-links">
+        <a href="https://instagram.com/udaikothi_udaipur" target="_blank" rel="noopener" class="hover-target">Instagram</a>
+        <a href="https://facebook.com/udaikothihotel" target="_blank" rel="noopener" class="hover-target">Facebook</a>
+        <a href="mailto:info@udaikothi.com" class="hover-target">info@udaikothi.com</a>
+        <a href="tel:+912942432810" class="hover-target">+91 (294) 243-2810</a>
     </div>
-    <div style="margin-top: 2rem; font-size: 0.7rem; color: rgba(255,255,255,0.2);">
-        &copy; 2026 Avartana Labs Concept.
+
+    <div class="footer-bottom-bar">
+        <span>Hanuman Ghat, On Lake Pichola, Chand Pole, Udaipur, Rajasthan 313001</span>
+        <span>&copy; 2026 Udai Kothi. Digital concept and architecture crafted by <a href="https://avartanalabs.com" target="_blank" rel="noopener">Avartana Labs</a>.</span>
     </div>
 </footer>
 
+<!-- Interactive Booking Concierge Drawer -->
+<div class="booking-modal-overlay" id="bookingOverlay">
+    <div class="booking-drawer">
+        <div class="drawer-header">
+            <h3>Reserve Your Stay</h3>
+            <button class="drawer-close" onclick="closeBookingDrawer()">✕</button>
+        </div>
+        <p style="font-size: 0.88rem; color: rgba(255,255,255,0.7); margin-bottom: 2rem;">
+            Direct VIP bookings enjoy complimentary sunset high tea at Baro Masi and priority early check-in.
+        </p>
+
+        <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+            <div class="booking-form-group">
+                <label for="roomSelect">Suite / Experience</label>
+                <select id="roomSelect" class="booking-select">
+                    <option value="Maharani Suite (Lake View)">Maharani Suite (Lake View)</option>
+                    <option value="Heritage Deluxe (Garden View)">Heritage Deluxe (Garden View)</option>
+                    <option value="Udai Suite (Private Terrace)">Udai Suite (Private Terrace)</option>
+                    <option value="Royal Room (Pool Access)">Royal Room (Pool Access)</option>
+                    <option value="Baro Masi Rooftop Dining">Baro Masi Rooftop Table Reservation</option>
+                    <option value="Heritage Wedding Inquiry">Heritage Wedding / Event Inquiry</option>
+                </select>
+            </div>
+
+            <div class="booking-grid-2">
+                <div class="booking-form-group">
+                    <label for="checkInDate">Check-In</label>
+                    <input type="date" id="checkInDate" class="booking-input" required>
+                </div>
+                <div class="booking-form-group">
+                    <label for="checkOutDate">Check-Out</label>
+                    <input type="date" id="checkOutDate" class="booking-input" required>
+                </div>
+            </div>
+
+            <div class="booking-grid-2">
+                <div class="booking-form-group">
+                    <label for="guestCount">Guests</label>
+                    <select id="guestCount" class="booking-select">
+                        <option value="1 Guest">1 Guest</option>
+                        <option value="2 Guests" selected>2 Guests</option>
+                        <option value="3 Guests">3 Guests</option>
+                        <option value="4+ Guests (Family)">4+ Guests (Family)</option>
+                    </select>
+                </div>
+                <div class="booking-form-group">
+                    <label for="guestName">Your Full Name</label>
+                    <input type="text" id="guestName" class="booking-input" placeholder="e.g. Lord / Lady Sinclair" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-whatsapp-book hover-target">
+                <span>💬 Connect via WhatsApp Concierge</span>
+            </button>
+        </form>
+
+        <div class="direct-contacts">
+            <span>Or contact our front desk directly:</span><br>
+            <a href="tel:+912942432810">📞 +91 (294) 243-2810</a> | 
+            <a href="mailto:info@udaikothi.com">✉️ info@udaikothi.com</a>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Avartana Labs Pitch Badge & Modal -->
+<div class="avartana-pitch-badge hover-target" onclick="openPitchModal()">
+    <span class="pulse-indicator"></span>
+    <span>✦ Avartana Concept · Pitch Brief</span>
+</div>
+
+<div class="pitch-modal-overlay" id="pitchOverlay">
+    <div class="pitch-modal">
+        <button class="pitch-modal-close" onclick="closePitchModal()">✕</button>
+        <span class="subtitle">Bespoke Hospitality Engineering</span>
+        <h3>Why Reimagined?</h3>
+        <p class="pitch-intro">
+            Avartana Labs crafted this architectural concept to demonstrate how modern, zero-debt engineering transforms luxury heritage hospitality into a direct-revenue powerhouse.
+        </p>
+
+        <div class="pitch-matrix">
+            <div class="matrix-box legacy">
+                <strong>Legacy Hotel Tech</strong>
+                <ul>
+                    <li>⚠️ 4.8s slow load on mobile</li>
+                    <li>⚠️ 18–25% commission lost to OTAs</li>
+                    <li>⚠️ Cluttered third-party plugins</li>
+                    <li>⚠️ High recurring maintenance costs</li>
+                </ul>
+            </div>
+            <div class="matrix-box avartana">
+                <strong>Avartana Architecture</strong>
+                <ul>
+                    <li>⚡ 0.4s instant global delivery</li>
+                    <li>💰 0% commission direct bookings</li>
+                    <li>✨ 60fps editorial typography & motion</li>
+                    <li>🔒 100% owned, custom code (zero lock-in)</li>
+                </ul>
+            </div>
+        </div>
+
+        <a href="mailto:contact@avartanalabs.com?subject=Inquiry%20regarding%20Hospitality%20Tech%20Concept" class="pitch-cta-btn hover-target">
+            Schedule a 15-Minute Strategy Call
+        </a>
+    </div>
+</div>
+
 <script>
-    // 1. MENU TOGGLE LOGIC (FIXED)
-    const menuBtn = document.getElementById('menuToggleBtn');
-    const menuOverlay = document.getElementById('menuOverlay');
+    // --- 1. BUTTERY 60FPS CURSOR WITH LERP ---
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorCircle = document.getElementById('cursorCircle');
+    let mouseX = -100, mouseY = -100;
+    let circleX = -100, circleY = -100;
+    const isTouchDevice = window.matchMedia("(hover: none)").matches || window.innerWidth < 900;
 
-    function toggleMenu() {
-        menuOverlay.classList.toggle('active');
+    if (!isTouchDevice) {
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.transform = `translate3d(${mouseX - 3}px, ${mouseY - 3}px, 0)`;
+        });
 
-        // Change button text based on state
-        if(menuOverlay.classList.contains('active')) {
-            menuBtn.textContent = "Close";
-            menuBtn.style.color = "white";
-        } else {
-            menuBtn.textContent = "Menu";
-            // Check if scrolled to set color
-            if(window.scrollY > 50) {
-                menuBtn.style.color = "inherit";
-            } else {
-                menuBtn.style.color = "white";
-            }
+        function animateCursor() {
+            circleX += (mouseX - circleX) * 0.18;
+            circleY += (mouseY - circleY) * 0.18;
+            cursorCircle.style.transform = `translate3d(${circleX - (cursorCircle.classList.contains('hovered') ? 32 : 17)}px, ${circleY - (cursorCircle.classList.contains('hovered') ? 32 : 17)}px, 0)`;
+            requestAnimationFrame(animateCursor);
         }
+        animateCursor();
+
+        document.querySelectorAll('.hover-target, button, a, select, input').forEach(target => {
+            target.addEventListener('mouseenter', () => cursorCircle.classList.add('hovered'));
+            target.addEventListener('mouseleave', () => cursorCircle.classList.remove('hovered'));
+        });
     }
 
-    menuBtn.addEventListener('click', toggleMenu);
+    // --- 2. INSTANT & GRACEFUL PRELOADER ---
+    const preloader = document.getElementById('preloader');
+    function dismissPreloader() {
+        if (!preloader.classList.contains('dismissed')) {
+            setTimeout(() => {
+                preloader.classList.add('dismissed');
+            }, 350);
+        }
+    }
+    window.addEventListener('load', dismissPreloader);
+    setTimeout(dismissPreloader, 1200); // Fail-safe fallback
 
-    // 2. Navigation Scroll Logic
+    // --- 3. NAVBAR SCROLL EFFECT ---
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
+        if (window.scrollY > 40) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+    }, { passive: true });
 
-    // 3. Cursor Logic
-    const cursor = document.querySelector('.cursor');
-    const hoverTargets = document.querySelectorAll('.hover-target');
-
-    // Only run custom cursor on desktop
-    if (window.matchMedia("(min-width: 768px)").matches) {
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        hoverTargets.forEach(target => {
-            target.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            target.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
-    }
-
-    // 4. Parallax BG Logic
+    // --- 4. PARALLAX HERO BACKGROUND ---
+    const parallaxBg = document.getElementById('parallaxBg');
     window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-        const bg = document.getElementById('parallax-bg');
-        if (bg) {
-            bg.style.transform = `translateY(${scrolled * 0.4}px)`;
+        if (parallaxBg && window.scrollY < window.innerHeight) {
+            parallaxBg.style.transform = `translate3d(0, ${window.scrollY * 0.35}px, 0)`;
         }
-    });
+    }, { passive: true });
 
-    // 5. Scroll Reveal Logic
-    const observer = new IntersectionObserver((entries) => {
+    // --- 5. INTERSECTION OBSERVER FOR REVEALS ---
+    const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.12 });
 
-    document.querySelectorAll('.reveal-up, .img-container').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal-up, .img-container').forEach(el => revealObserver.observe(el));
+
+    // --- 6. MENU TOGGLE ---
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const menuOverlay = document.getElementById('menuOverlay');
+    function toggleMenu() {
+        menuOverlay.classList.toggle('active');
+        menuBtn.textContent = menuOverlay.classList.contains('active') ? "Close" : "Menu";
+    }
+    menuBtn.addEventListener('click', toggleMenu);
+
+    // --- 7. BOOKING CONCIERGE DRAWER ---
+    const bookingOverlay = document.getElementById('bookingOverlay');
+    const roomSelect = document.getElementById('roomSelect');
+    
+    // Default dates (tomorrow & day after)
+    const checkInInput = document.getElementById('checkInDate');
+    const checkOutInput = document.getElementById('checkOutDate');
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dayAfter = new Date(tomorrow);
+    dayAfter.setDate(dayAfter.getDate() + 2);
+    
+    if (checkInInput && checkOutInput) {
+        checkInInput.min = tomorrow.toISOString().split('T')[0];
+        checkInInput.value = tomorrow.toISOString().split('T')[0];
+        checkOutInput.min = dayAfter.toISOString().split('T')[0];
+        checkOutInput.value = dayAfter.toISOString().split('T')[0];
+    }
+
+    function openBookingDrawer(preselectOption) {
+        if (preselectOption && roomSelect) {
+            for (let i = 0; i < roomSelect.options.length; i++) {
+                if (roomSelect.options[i].text.includes(preselectOption) || roomSelect.options[i].value.includes(preselectOption)) {
+                    roomSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+        bookingOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeBookingDrawer() {
+        bookingOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    bookingOverlay.addEventListener('click', (e) => {
+        if (e.target === bookingOverlay) closeBookingDrawer();
+    });
+
+    function handleBookingSubmit(e) {
+        e.preventDefault();
+        const room = roomSelect.value;
+        const checkIn = checkInInput.value;
+        const checkOut = checkOutInput.value;
+        const guests = document.getElementById('guestCount').value;
+        const name = document.getElementById('guestName').value;
+
+        const message = `Hello Udai Kothi Concierge, I would like to inquire about a booking at Udai Kothi:%0A%0A` +
+                        `• Guest: ${encodeURIComponent(name)}%0A` +
+                        `• Room: ${encodeURIComponent(room)}%0A` +
+                        `• Check-In: ${checkIn}%0A` +
+                        `• Check-Out: ${checkOut}%0A` +
+                        `• Party: ${encodeURIComponent(guests)}%0A%0A` +
+                        `Please share current availability and booking terms.`;
+
+        // Direct WhatsApp to Udai Kothi / Concierge Desk
+        window.open(`https://wa.me/912942432810?text=${message}`, '_blank');
+        closeBookingDrawer();
+    }
+
+    // --- 8. AVARTANA LABS PITCH MODAL ---
+    const pitchOverlay = document.getElementById('pitchOverlay');
+    function openPitchModal() {
+        pitchOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closePitchModal() {
+        pitchOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+    pitchOverlay.addEventListener('click', (e) => {
+        if (e.target === pitchOverlay) closePitchModal();
+    });
 </script>
 
 </body>
